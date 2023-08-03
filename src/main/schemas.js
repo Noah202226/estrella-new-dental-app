@@ -87,11 +87,31 @@ const expenseSchema = new Schema({
   dateExpense: { type: Date, required: true }
 })
 
+const DropdownSchema = new Schema({
+  itemName: String,
+  ref: String
+})
+const DropdownItem = new Schema({
+  itemName: String,
+  ref: String
+})
+
 const Expenses = model('Expense', expenseSchema)
 const Users = model('User', userSchema)
 const Settings = model('setting', settingSchema)
 const SalesRecord = model('SalesRecord', salesRecordSchema)
 const PatientRecord = model('PatientRecord', newPatientSchema)
 const InstallmentPatient = model('bracepatients', InstallmentPatientSchema)
+const Dropdown = model('dropdown', DropdownSchema)
+const DropdownData = model('dropdown-item', DropdownItem)
 
-export { InstallmentPatient, Users, PatientRecord, SalesRecord, Settings, Expenses }
+export {
+  InstallmentPatient,
+  Users,
+  PatientRecord,
+  SalesRecord,
+  Settings,
+  Expenses,
+  Dropdown,
+  DropdownData
+}

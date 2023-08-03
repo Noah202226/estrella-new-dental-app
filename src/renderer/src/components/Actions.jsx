@@ -2,7 +2,7 @@ import { Button, Stack } from '@mui/material'
 import React from 'react'
 import { toast } from 'react-toastify'
 
-const Actions = ({ expenseModalRef }) => {
+const Actions = ({ expenseModalRef, settingModalRef, transactionReportRef }) => {
   // Export functions
   const notyetworking = () => {
     console.log('.')
