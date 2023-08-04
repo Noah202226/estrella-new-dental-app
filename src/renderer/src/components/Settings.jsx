@@ -271,9 +271,9 @@ const Settings = ({
               aria-label="secondary tabs example"
             >
               <Tab label="Personalization" {...a11yProps(0)} />
-              <Tab label="Users" {...a11yProps(1)} />
-              <Tab label="Dropdown Values" {...a11yProps(2)} />
-              <Tab label="Product Inventory" {...a11yProps(3)} />
+              {/* <Tab label="Users" {...a11yProps(1)} /> */}
+              <Tab label="Dropdown Values" {...a11yProps(1)} />
+              {/* <Tab label="Product Inventory" {...a11yProps(3)} /> */}
             </Tabs>
           </Box>
 
@@ -390,7 +390,7 @@ const Settings = ({
             </Grid>
           </CustomTabPanel>
 
-          {/* Tab 2 */}
+          {/* Tab 2
           <CustomTabPanel tabValue={tabValue} index={1}>
             <Stack flexDirection={'row'} justifyContent={'space-between'} p={1}>
               <Typography variant="h5">All Users</Typography>
@@ -441,10 +441,10 @@ const Settings = ({
                 </Card>
               ))}
             </Paper>
-          </CustomTabPanel>
+          </CustomTabPanel> */}
 
           {/* Tab 3 */}
-          <CustomTabPanel tabValue={tabValue} index={2}>
+          <CustomTabPanel tabValue={tabValue} index={1}>
             <Box sx={{ padding: 1, mt: 2 }}>
               <Typography variant="h4">Drop down Values</Typography>
 
@@ -573,23 +573,6 @@ const Settings = ({
                   </Grid>
                 </Grid>
               </Stack>
-            </Box>
-          </CustomTabPanel>
-
-          <CustomTabPanel tabValue={tabValue} index={3}>
-            <Box
-              sx={{ padding: 1, mt: 2 }}
-              flexDirection={'row'}
-              alignItems={'center'}
-              justifyContent={'center'}
-            >
-              <Typography variant="h6">Manage your clinic item or products</Typography>
-
-              <Box sx={{ background: 'lightgrey', padding: 10 }}>
-                <Typography variant="body" textAlign={'center'}>
-                  Features coming soon...
-                </Typography>
-              </Box>
             </Box>
           </CustomTabPanel>
         </Box>

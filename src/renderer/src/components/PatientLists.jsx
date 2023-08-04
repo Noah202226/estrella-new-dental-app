@@ -18,6 +18,7 @@ import { ToastContainer, toast } from 'react-toastify'
 const PatientList = ({
   patients,
   isRenderingInstallmentPatients,
+  setIsRenderingInstallmentPatients,
   settingsInfo,
   dropdownData,
   dropDownItems,
@@ -94,6 +95,7 @@ const PatientList = ({
 
   const submitPatient = () => {
     // console.log(treatmentTypeRef.current.children[0].value)
+
     const data = {
       dateTransact: dateNow,
       patientName: patientNameRef.current.children[1].children[0].value,
@@ -109,15 +111,15 @@ const PatientList = ({
       gives: []
     }
 
-    // const sale = {
-    //   dateTransact: dateNow,
-    //   patientName: patientNameRef.current.children[1].children[0].value,
-    //   treatmentRendered: selectedTreatment,
-    //   treatmentType: selectedTreatmentItem,
-    //   amountPaid: downpaymentRef.current.children[1].children[0].value
-    // }
+    const sale = {
+      dateTransact: dateNow,
+      patientName: patientNameRef.current.children[1].children[0].value,
+      treatmentRendered: selectedTreatment,
+      treatmentType: selectedTreatmentItem,
+      amountPaid: downpaymentRef.current.children[1].children[0].value
+    }
 
-    // ipcRenderer.send('new-sale-record', sale)
+    ipcRenderer.send('new-sale', sale)
     ipcRenderer.send('new-installment-patient', data)
 
     // Reset Fields
@@ -125,8 +127,8 @@ const PatientList = ({
     ageRef.current.children[1].children[0].value = ''
     patientAddresRef.current.children[1].children[0].value = ''
 
-    // servicePriceRef.current.children[1].children[0].value = ''
-    // downpaymentRef.current.children[1].children[0].value = ''
+    servicePriceRef.current.children[1].children[0].value = ''
+    downpaymentRef.current.children[1].children[0].value = ''
   }
 
   const getPatientInfo = (id, fullName) => {
@@ -144,32 +146,6 @@ const PatientList = ({
     ipcRenderer.send('delete-installment-patient', patientID)
   }
 
-  const submitNewGive = () => {
-    setGives((prev) => [...prev, { givenDate: dateNow, amountGive: newTransactionAmount }])
-    setUpdatedGives((prev) => [...prev, { givenDate: dateNow, amountGive: newTransactionAmount }])
-
-    ipcRenderer.send('update-installment-patient-gives', {
-      patientID,
-      givenDate: dateNow,
-      amountGive: newTransactionAmount
-    })
-    // ipcRenderer.send('update-installment-patient-gives', {
-    //   patientID,
-    //   gives: updatedGives,
-    //   remainingBal: remainingBal - newTransactionAmount
-    // })
-    const sale = {
-      dateTransact: dateNow,
-      patientName: patientName,
-      treatmentRendered: treatmentRendered,
-      treatmentType: treatmentType,
-      amountPaid: newTransactionAmount
-    }
-
-    ipcRenderer.send('new-sale-record', sale)
-
-    setremainingBal(remainingBal - newTransactionAmount)
-  }
   const saveNewGive = () => {
     setGives((prev) => [...prev, { givenDate: dateNow, givenAmount: newTransactionAmount }])
 
@@ -189,15 +165,21 @@ const PatientList = ({
     }
 
     ipcRenderer.send('new-sale', sale)
+
+    setNewTransactionAmount(0)
   }
 
   useEffect(() => {
     ipcRenderer.on('installment-patient-saved', (e, args) => {
-      ipcRenderer.send('patients-records')
-      ipcRenderer.send('installment-patient-records')
-      toast.success('New patient saved.', {
+      setIsRenderingInstallmentPatients(true)
+      ipcRenderer.send('get-patients')
+      ipcRenderer.send('get-installment-patients')
+
+      // setIsRenderingInstallmentPatients(false)
+
+      toast.success('New installment patient saved.', {
         position: 'top-center',
-        containerId: 'homeToastifyContainer'
+        containerId: 'home-notifications'
       })
 
       newPatientRef.current.close()
@@ -224,9 +206,10 @@ const PatientList = ({
     })
 
     ipcRenderer.on('installment-patient-deleted', (e, args) => {
+      setIsRenderingInstallmentPatients(true)
       toast.success('Patient Deleted', {
         position: 'top-center',
-        containerId: 'homeToastifyContainer'
+        containerId: 'home-notifications'
       })
 
       setdateTransact('')
@@ -249,6 +232,7 @@ const PatientList = ({
     })
 
     ipcRenderer.on('installment-patient-gives-updated', (e, args) => {
+      setIsRenderingInstallmentPatients(true)
       toast.success('Patient gives updated.', {
         position: 'top-center',
         containerId: 'gives-nofity'
@@ -524,7 +508,7 @@ const PatientList = ({
           zIndex: 9999999,
           width: 1250,
           height: 700,
-          backgroundImage: 'url("../assets/dentist.png")',
+          backgroundImage: 'url("../../resources/dentist.png")',
           backgroundSize: '200px',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'bottom',

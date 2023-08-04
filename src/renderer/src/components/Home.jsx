@@ -61,11 +61,15 @@ const Home = () => {
     })
 
     ipcRenderer.on('brace-patients', (e, args) => {
+      console.log('loading installment patients')
+
       setInstallmentPatients(JSON.parse(args))
       setIsRenderingInstallmentPatients(false)
     })
 
     ipcRenderer.on('patients', (e, args) => {
+      console.log('loading patient records')
+
       setPatients(JSON.parse(args))
       setIsRenderingPatients(false)
     })
@@ -130,6 +134,7 @@ const Home = () => {
           <PatientList
             patients={search === '' ? installmentPatients : filteredInstallmentPatientsData}
             isRenderingInstallmentPatients={isRenderingInstallmentPatients}
+            setIsRenderingInstallmentPatients={setIsRenderingInstallmentPatients}
             dropDownItems={dropDownItems}
             dropdownData={dropdownData}
             selectedTreatment={selectedTreatment}
@@ -144,6 +149,7 @@ const Home = () => {
           <PatientRecords
             patients={search === '' ? Patients : filterPatientsData}
             isRenderingPatients={isRenderingPatients}
+            setIsRenderingPatients={setIsRenderingPatients}
             dropDownItems={dropDownItems}
             dropdownData={dropdownData}
             selectedTreatment={selectedTreatment}

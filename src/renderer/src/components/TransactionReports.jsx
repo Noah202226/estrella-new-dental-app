@@ -17,6 +17,8 @@ import {
 } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
 import { ToastContainer } from 'react-toastify'
+import SalesInfo from './SalesInfo'
+import ExpenseInfo from './ExpenseInfo'
 
 const TransactionReports = ({ transactionReportRef, dropdownData }) => {
   const [page, setPage] = useState(0)
@@ -27,8 +29,13 @@ const TransactionReports = ({ transactionReportRef, dropdownData }) => {
   const [firstDayOfMonth, setFirstDayOfMonth] = useState()
   const [lastDayOfMonth, setLastDayOfMonth] = useState()
 
+  // Get transaction info
+  const [txID, setTxID] = useState()
+
   // Sale Transaction refs
   const saleTransactionRef = useRef()
+  const saleTransactionInfoRef = useRef()
+  const expenseTransactionRef = useRef()
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
@@ -197,7 +204,7 @@ const TransactionReports = ({ transactionReportRef, dropdownData }) => {
                   .map((row) => (
                     <TableRow
                       onClick={() => {
-                        saleTransactionRef.current.showModal()
+                        saleTransactionInfoRef.current.showModal()
                         setTxID(row._id)
                       }}
                       key={row._id}
@@ -308,8 +315,8 @@ const TransactionReports = ({ transactionReportRef, dropdownData }) => {
                   .map((row) => (
                     <TableRow
                       onClick={() => {
-                        getSalesTransactionInfo(row._id)
-                        saleTransactionRef.current.showModal()
+                        expenseTransactionRef.current.showModal()
+                        setTxID(row._id)
                       }}
                       key={row._id}
                       sx={{
@@ -412,6 +419,20 @@ const TransactionReports = ({ transactionReportRef, dropdownData }) => {
           </TableContainer>
         </Grid>
       </Grid>
+
+      <SalesInfo
+        saleTransactionRef={saleTransactionInfoRef}
+        txID={txID}
+        firstDay={firstDay}
+        lastDay={lastDay}
+      />
+
+      <ExpenseInfo
+        expenseTransactionRef={expenseTransactionRef}
+        txID={txID}
+        firstDay={firstDay}
+        lastDay={lastDay}
+      />
 
       <ToastContainer
         autoClose={2000}

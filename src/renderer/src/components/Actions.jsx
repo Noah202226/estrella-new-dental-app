@@ -17,7 +17,11 @@ const Actions = ({ expenseModalRef, settingModalRef, transactionReportRef }) => 
       display={'flex'}
       flexDirection={'row'}
       alignItems={'center'}
-      justifyContent={'space-evenly'}
+      justifyContent={'space-around'}
+      width={500}
+      bgcolor={'GrayText'}
+      padding={1}
+      borderRadius={4}
     >
       <Button
         variant="contained"

@@ -16,10 +16,12 @@ import {
 
 import React, { useEffect, useRef, useState } from 'react'
 import { Flip, ToastContainer, toast } from 'react-toastify'
+import NewPatientRecord from './NewPatientRecord'
 
 const PatientRecords = ({
   patients,
   isRenderingPatients,
+  setIsRenderingPatients,
   dropdownData,
   dropDownItems,
   selectedTreatment,
@@ -29,6 +31,7 @@ const PatientRecords = ({
 }) => {
   const ipcRenderer = window.ipcRenderer
   const patientInfoRef = useRef()
+  const newPatientRecordRef = useRef()
 
   const [patientRecord, setPatientRecord] = useState()
   const [isGettingPatientData, setIsGettingPatientData] = useState(true)
@@ -115,11 +118,11 @@ const PatientRecords = ({
     })
 
     ipcRenderer.on('patient-data-updated', () => {
+      setIsRenderingPatients(true)
       toast.success('Patient Data Updated.', { containerId: 'home-notifications' })
 
       //   Reload home date
       ipcRenderer.send('get-patients')
-      ipcRenderer.send('get-installment-patients')
 
       patientInfoRef.current.close()
     })
@@ -133,13 +136,12 @@ const PatientRecords = ({
     })
 
     ipcRenderer.on('tx-deleted', (e, args) => {
+      setIsRenderingPatients(true)
+      patientInfoRef.current.close()
       toast.success('Transaction deleted', { containerId: 'home-notifications' })
 
       //   Reload home date
       ipcRenderer.send('get-patients')
-      ipcRenderer.send('get-installment-patients')
-
-      patientInfoRef.current.close()
     })
     ipcRenderer.on('error-deleting-tx', (e, args) => {
       toast.success('Deleting transaction failed' + args, {
@@ -148,11 +150,13 @@ const PatientRecords = ({
     })
 
     ipcRenderer.on('patient-record-deleted', (e, args) => {
+      setIsRenderingPatients(true)
+      patientInfoRef.current.close()
+
       toast.success('Patient Record deleted', { containerId: 'home-notifications' })
 
       //   Reload home date
       ipcRenderer.send('get-patients')
-      ipcRenderer.send('get-installment-patients')
     })
 
     ipcRenderer.on('error-deleting-patient', (e, args) => {
@@ -161,12 +165,14 @@ const PatientRecords = ({
 
     // New Sale
     ipcRenderer.on('new-sale-saved', (e, args) => {
+      setIsRenderingPatients(true)
+
+      patientInfoRef.current.close()
       toast.success('New sale saved.', { containerId: 'home-notifications' })
       setNewSaleAmount(0)
 
       //   Reload home date
       ipcRenderer.send('get-patients')
-      ipcRenderer.send('get-installment-patients')
     })
   }, [])
 
@@ -207,8 +213,7 @@ const PatientRecords = ({
           size="small"
           variant="contained"
           onClick={() => {
-            newPatientRef.current.showModal()
-            newPatientRef.current.classList.add('show')
+            newPatientRecordRef.current.showModal()
           }}
         >
           New
@@ -534,6 +539,16 @@ const PatientRecords = ({
           pauseOnHover={false}
         />
       </dialog>
+
+      <NewPatientRecord
+        newPatientRecordRef={newPatientRecordRef}
+        dropdownData={dropdownData}
+        dropDownItems={dropDownItems}
+        selectedTreatment={selectedTreatment}
+        selectedTreatmentItem={selectedTreatmentItem}
+        setSelectedTreatment={setSelectedTreatment}
+        setSelectedTreatmentItem={setSelectedTreatmentItem}
+      />
     </div>
   )
 }

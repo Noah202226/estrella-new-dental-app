@@ -31,14 +31,10 @@ const newPatientSchema = new Schema({
   occupation: { type: String, required: true },
   homeAddress: { type: String, required: true },
   contactNumber1: { type: Number, required: true },
-  // contactNumber2: { type: Number, required: true },
-  // contactNumber3: { type: Number, required: true },
   personToContact: { type: String, required: true },
   personRelation: { type: String, required: true },
   personContactNumber: { type: String, required: true },
   medicalAndDentalHistory: { type: String, required: true }
-  // medicalAndDentalHistoryRelation: { type: String, required: true },
-  // medicalAndDentalHistoryContact: { type: String, required: true },
 })
 
 const salesRecordSchema = new Schema({
