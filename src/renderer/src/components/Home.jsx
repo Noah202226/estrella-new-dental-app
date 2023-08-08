@@ -101,10 +101,10 @@ const Home = () => {
     <Box p={1}>
       <Grid container>
         <Grid item xs={7}>
-          <Stack flexDirection={'row'} alignItems={'center'} justifyContent={'center'}>
-            <img src={icon} alt="heading image" width={100} height={100} />
-            <Typography variant="h2" textAlign={'center'}>
-              Estrella dental app
+          <Stack flexDirection={'row'} alignItems={'flex-end'} justifyContent={'flex-start'}>
+            <img src={icon} alt="heading image" width={80} height={80} />
+            <Typography variant="h2" textAlign={'center'} ml={4}>
+              Estrella Dental Clinic
             </Typography>
           </Stack>
         </Grid>

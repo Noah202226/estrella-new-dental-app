@@ -39,6 +39,13 @@ function createWindow() {
     return { action: 'deny' }
   })
 
+  mainWindow.on('close', (event) => {
+    // Prevent the window from quitting immediately
+    event.preventDefault()
+
+    mainWindow.webContents.send('closing-app', 'data')
+  })
+
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
@@ -304,6 +311,27 @@ ipcMain.on('update-installment-patient-gives', async (e, args) => {
   }
 })
 
+ipcMain.on('delete-installment-patient-gives', async (e, args) => {
+  console.log(args)
+  try {
+    const data = await InstallmentPatient.updateOne(
+      { _id: args.patientID },
+      {
+        $set: { gives: args.newGivesArray },
+        remainingBal: args.remainingBal
+      }
+    )
+    // await newPatient2.save()
+    console.log('Delete Patient Give Updated successfully!', data)
+    // Handle any success messages or redirects
+
+    e.reply('installment-patient-gives-deleted', args.patientID)
+  } catch (error) {
+    console.error('Error saving user:', error)
+    // Handle any error messages or error handling
+  }
+})
+
 // Transactions Report
 ipcMain.on('get-filtered-sales-record', async (e, args) => {
   try {
@@ -428,4 +456,9 @@ ipcMain.on('update-expense-tx', async (e, args) => {
     console.error('Error getting tx:', error)
     // Handle any error messages or error handling
   }
+})
+
+// Exit app
+ipcMain.on('exit-app', (e, args) => {
+  app.exit()
 })

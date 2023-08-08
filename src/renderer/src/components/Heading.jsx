@@ -30,8 +30,8 @@ const Heading = () => {
     }, 1000)
   }, [])
   return (
-    <Stack alignItems={'center'} justifyContent={'center'}>
-      <Typography variant="h5" fontSize={29} padding={1}>
+    <Stack alignItems={'end'} justifyContent={'end'}>
+      <Typography variant="h5" fontSize={29} padding={1} mt={4}>
         {dateTime}
       </Typography>
     </Stack>

@@ -17,6 +17,7 @@ import {
 import React, { useEffect, useRef, useState } from 'react'
 import { Flip, ToastContainer, toast } from 'react-toastify'
 import NewPatientRecord from './NewPatientRecord'
+import { AddBox } from '@mui/icons-material'
 
 const PatientRecords = ({
   patients,
@@ -206,8 +207,8 @@ const PatientRecords = ({
 
   return (
     <div>
-      <Stack flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'}>
-        <Typography>Patient Records</Typography>
+      <Stack flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} mb={0.5}>
+        <Typography variant="h6">Patient Records</Typography>
 
         <Button
           size="small"
@@ -216,6 +217,7 @@ const PatientRecords = ({
             newPatientRecordRef.current.showModal()
           }}
         >
+          <AddBox sx={{ mr: 1 }} />
           New
         </Button>
       </Stack>
