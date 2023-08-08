@@ -28,8 +28,9 @@ const Home = () => {
 
   const [installmentPatients, setInstallmentPatients] = useState([])
   const [isRenderingInstallmentPatients, setIsRenderingInstallmentPatients] = useState(true)
-  const [isRenderingPatients, setIsRenderingPatients] = useState(true)
+
   const [Patients, setPatients] = useState([])
+  const [isRenderingPatients, setIsRenderingPatients] = useState(true)
 
   // Get selected treatment
   const [dropdownData, setDropdownData] = useState([])
